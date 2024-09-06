@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form">
+            <h4>Create Story</h4>
+            <form id="createStoryForm">
+                <!-- Language Selection -->
+                <div class="form-group my-3">
+                    <label for="languageSelect">Select Language</label>
+                    <select name="language" class="form-control" id="languageSelect">
+                        <option>Spanish</option>
+                        <option>English</option>
+                    </select>
+                </div>
+
+                <!-- Word Input -->
+                <div class="form-group my-3">
+                    <label for="wordInput">Enter Words</label>
+                    <input type="text" id="wordInput" data-role="wordInput" class="form-control" />
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="wordInput">Words</label>
+                    <div id="wordsContainer" class="words-container">
+                    </div>
+                </div>
+
+                <!-- Format Selection -->
+                <div class="form-group my-3">
+                    <label for="formatSelect">Select Format</label>
+                    <select name="format" class="form-control" id="formatSelect">
+                        <option>Epub</option>
+                        <option>PDF</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button id="submitStory" type="submit" class="btn btn-primary submit-button">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
