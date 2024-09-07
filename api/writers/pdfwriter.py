@@ -18,7 +18,9 @@ class PDFWriter(writer.Writer):
             pdf.add_page()
             pdf.set_font("Arial", size=18)
             pdf.cell(200, 10, txt=self.title, ln=True, align="C")
-            # pdf.cell()
+
+            pdf.set_font("Arial", size=12)
+            pdf.multi_cell(0, 10, txt=self.content)
 
             pdf_bytes = pdf.output(dest="S").encode("latin1")
             pdf_buffer = BytesIO(pdf_bytes)

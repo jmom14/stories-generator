@@ -17,5 +17,7 @@ def get_story_prompt(words: List[str], language: str, size: str) -> str:
         + "and there was no shortage of memories to share."
         + '"'
         + "}"
+        + "Aditionally escape all espcial characters by adding backlask as follows:"
+        + "\"" + "Hola!" + "\""
     )
     return prompt
