@@ -28,19 +28,21 @@ createStoryForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
+    let fileName = '';
     const params = {
         "language": data.language,
         "words": words,
         "format": data.format,
     }
-    // Make the POST request
     fetch('http://localhost:8000/stories/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
-    }).then(response => {
+    }).then((response) => {
+        const xFileName = response.headers.get('X-File-Name');
+        fileName = xFileName
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
@@ -52,7 +54,7 @@ createStoryForm.addEventListener('submit', (e) => {
         const anchor = document.createElement('a');
         anchor.style = 'display: none';
         anchor.href = url;
-        anchor.download = 'story.epub';
+        anchor.download = fileName;
         document.body.appendChild(anchor);
         anchor.click();
         window.URL.revokeObjectURL(url);

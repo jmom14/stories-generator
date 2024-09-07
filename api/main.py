@@ -1,10 +1,11 @@
 from fastapi.responses import FileResponse, StreamingResponse
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from services import stories
 import logging
 from models import request
 from fastapi.middleware.cors import CORSMiddleware
 from writers.writerfactory import Format, get_media_type
+from helper.async_tasks import remove_file_async
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
@@ -33,11 +35,15 @@ async def root():
 
 
 @app.post("/stories/")
-async def create_story(story: request.StoryRequest):
+async def create_story(story: request.StoryRequest, background_tasks: BackgroundTasks):
     format_file = story.format
 
     try:
         book_buffer, filename = stories.create_story(story)
+        headers_response = {
+            "Content-Disposition": f"attachment; filename={filename}",
+            "X-File-Name": filename,
+        }
 
         if not filename:
             error_message = "Failed to create the story"
@@ -45,19 +51,16 @@ async def create_story(story: request.StoryRequest):
             raise HTTPException(status_code=500, detail=error_message)
 
         if format_file == Format.EPUB.value:
-            print("epub -> ", book_buffer)
-            print(f"filename -> {filename}")
+            background_tasks.add_task(remove_file_async, filename)
+
             return FileResponse(
                 filename,
-                filename=filename,
                 status_code=200,
                 media_type=get_media_type(format_file),
+                headers=headers_response,
             )
 
-        elif format_file == Format.PDF.value:
-            headers_response = {
-                "Content-Disposition": f"attachment; filename={filename}"
-            }
+        if format_file == Format.PDF.value:
             return StreamingResponse(
                 content=book_buffer,
                 status_code=200,

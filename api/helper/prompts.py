@@ -2,10 +2,10 @@ from typing import List
 
 
 def get_story_prompt(words: List[str], language: str, size: str) -> str:
-    words = "".join(words)
+    words = ", ".join(words)
     prompt = (
-        f"Act as a Writer and Editorial and create a story {size} in {language} using the following"
-        + "words: {words} "
+        f"Act as a Writer and Editorial and create a story {size} in {language} using the "
+        + f"following words: {words} "
         + "give a title and return it in json format with title and content as attributes."
         + "For example:  { "
         + ' "title": "The Story of Tomorrow" '
@@ -18,5 +18,4 @@ def get_story_prompt(words: List[str], language: str, size: str) -> str:
         + '"'
         + "}"
     )
-
     return prompt

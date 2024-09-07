@@ -1,41 +1,43 @@
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 import json
 from config import settings
 from helper import prompts
 from writers.writerfactory import WriterFactory
+import logging
+
 
 ROLE = "user"
-SIZES = {
-    "small": "story of 200 words",
-    "medium": "story of 300 words",
-    "large": "story of 400 words",
+STORY_SIZES = {
+    "small": "story of 300 words",
+    "medium": "story of 500 words",
+    "large": "story of 1000 words",
 }
 
 
-def create_story(story):
-    client = OpenAI(
-        api_key=settings.openai_key,
+def generate_chat_completion(client, prompt):
+    return client.chat.completions.create(
+        messages=[{"role": ROLE, "content": prompt}],
+        model=settings.openai_model or "gpt-3.5-turbo",
     )
 
-    prompt = prompts.get_story_prompt(
-        story.words, story.language, "story of 1000 words"
-    )
+
+def create_story(story):
+    client = OpenAI(api_key=settings.openai_key)
+    prompt = prompts.get_story_prompt(story.words, story.language, STORY_SIZES["large"])
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": ROLE,
-                    "content": prompt,
-                }
-            ],
-            model="gpt-3.5-turbo",
-        )
-        data = json.loads(chat_completion.choices[0].message.content)
+        chat_completion = generate_chat_completion(client, prompt)
+        content = chat_completion.choices[0].message.content
+        data = json.loads(content)
         writer_factory = WriterFactory(story.format)
         writer = writer_factory.create_writer(data["title"], "ChatGPT", data["content"])
-        book_file = writer.write()
-        return book_file
+        book, filename = writer.write()
+        return book, filename
 
+    except json.JSONDecodeError as e:
+        logging.error(f"Error parsing JSON: {str(e)}")
+    except OpenAIError as e:
+        logging.error(f"Error with OpenAI API: {str(e)}")
     except Exception as e:
-        print(f"error: {str(e)}")
-        return ""
+        logging.error(f"Unexpected error: {str(e)}")
+
+    return "", ""

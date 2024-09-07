@@ -1,5 +1,5 @@
-from writer.epubwriter import EPUBWriter
-from writer.pdfwriter import PDFWriter
+from writers.epubwriter import EPUBWriter
+from writers.pdfwriter import PDFWriter
 from enum import Enum
 
 
@@ -9,8 +9,8 @@ class Format(Enum):
 
 
 media_type_options = {
-    Format.EPUB: "application/epub+zip",
-    Format.PDF: "application/pdf",
+    "epub": "application/epub+zip",
+    "pdf": "application/pdf",
 }
 
 

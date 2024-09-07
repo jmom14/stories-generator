@@ -1,5 +1,6 @@
 from writers import writer
 from ebooklib import epub
+import logging
 
 
 class EPUBWriter(writer.Writer):
@@ -40,10 +41,8 @@ class EPUBWriter(writer.Writer):
         book.spine = ["nav", c1]
 
         try:
-            print("filename epub -> ", filename)
             epub.write_epub(filename, book, {})
             return "", filename
         except Exception as e:
-            print(str(e))
-            print("error epub")
+            logging.error(str(e))
             return ""

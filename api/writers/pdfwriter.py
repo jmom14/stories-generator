@@ -1,6 +1,7 @@
 from writers import writer
 from io import BytesIO
 from fpdf import FPDF
+import logging
 
 
 class PDFWriter(writer.Writer):
@@ -25,5 +26,5 @@ class PDFWriter(writer.Writer):
             return pdf_buffer, filename
 
         except Exception as e:
-            print(f"error -> {str(e)}")
+            logging.error(str(e))
             return ""
