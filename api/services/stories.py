@@ -8,9 +8,9 @@ import logging
 
 ROLE = "user"
 STORY_SIZES = {
-    "small": "story of 300 words",
-    "medium": "story of 500 words",
-    "large": "story of 1000 words",
+    "small": "that contains around 500 words",
+    "medium": "that contains around 1000 words",
+    "large": "that contains around 2000 words",
 }
 
 
@@ -34,6 +34,7 @@ def create_story(story):
         return book, filename
 
     except json.JSONDecodeError as e:
+        print(content)
         logging.error(f"Error parsing JSON: {str(e)}")
     except OpenAIError as e:
         logging.error(f"Error with OpenAI API: {str(e)}")
