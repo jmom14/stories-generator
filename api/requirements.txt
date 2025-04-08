@@ -1,0 +1,5 @@
+celery==5.4.0
+fastapi==0.109.2
+flower==2.0.1
+uvicorn==0.27.1
+redis==5.0.8
