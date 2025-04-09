@@ -1,8 +1,8 @@
 from openai import OpenAI, OpenAIError
 import json
-from config import settings
-from helper import prompts
-from writers.writerfactory import WriterFactory
+from api.config import settings
+from api.helper import prompts
+from api.writers.writerfactory import WriterFactory
 import logging
 
 

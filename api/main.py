@@ -1,11 +1,12 @@
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi import FastAPI, HTTPException, BackgroundTasks
-from services import stories
+from api.services import stories
 import logging
-from models import request
+from api.models import request
 from fastapi.middleware.cors import CORSMiddleware
-from writers.writerfactory import Format, get_media_type
-from helper.async_tasks import remove_file_async
+from api.writers.writerfactory import Format, get_media_type
+from api.helper.async_tasks import remove_file_async
+from api.celery_worker.tasks import sum_async, app as celery_app
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -32,6 +33,21 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"Hello": "World"}
+
+
+@app.get("/sum-async-process")
+def get_sum_async():
+    result = sum_async.delay(10, 20)
+    return {"task_id": result.id}
+
+
+@app.get("/sum-async-result/status/{task_id}")
+def get_sum_async_result(task_id: str):
+    result = celery_app.AsyncResult(task_id)
+    if result.ready():
+        return {"result": result.result}
+    else:
+        return {"status": result.state}
 
 
 @app.post("/stories/")

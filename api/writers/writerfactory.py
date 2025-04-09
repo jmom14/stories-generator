@@ -1,5 +1,5 @@
-from writers.epubwriter import EPUBWriter
-from writers.pdfwriter import PDFWriter
+from api.writers.epubwriter import EPUBWriter
+from api.writers.pdfwriter import PDFWriter
 from enum import Enum
 
 
