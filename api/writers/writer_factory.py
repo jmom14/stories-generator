@@ -11,22 +11,22 @@ class Format(Enum):
 media_type_options = {
     "epub": "application/epub+zip",
     "pdf": "application/pdf",
+    "generic": "application/octet-stream",  # Default for unknown formats
 }
 
 
-def get_media_type(file_format: str):
-    return media_type_options.get(file_format, "application/octet-stream")
+def get_media_type(file_format: str) -> str:
+    defult_format = media_type_options["generic"]
+    return media_type_options.get(file_format, defult_format)
 
 
 class WriterFactory:
 
-    def __init__(self, file_format):
-        self.format = file_format
-
-    def create_writer(self, title, author, content):
-        if self.format == Format.EPUB.value:
+    @staticmethod
+    def get_writer(file_format, title, author, content):
+        if file_format == Format.EPUB.value:
             return EPUBWriter(title, author, content)
-        elif self.format == Format.PDF.value:
+        elif file_format == Format.PDF.value:
             return PDFWriter(title, author, content)
         else:
             raise ValueError("Unsupported format, choose either EPUB or PDF.")

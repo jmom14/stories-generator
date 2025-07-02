@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     gemini_key: str | None = None
     gemini_model: str = "gemini-2.5-flash"
 
+    cloude_key: str | None = None
+    cloude_model: str = "claude-opus-4-0"
+
     model_config = SettingsConfigDict(env_file=".env")
 
 

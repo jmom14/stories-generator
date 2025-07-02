@@ -4,20 +4,17 @@ from typing import List
 def get_story_prompt(words: List[str], language: str, size: str) -> str:
     words = ", ".join(words)
     prompt = (
-        f"Act as a Writer and Editorial and create a story {size} in {language} using the "
-        + f"following words: {words} "
-        + "give a title and return it in json format with title and content as attributes."
-        + "For example:  { "
-        + ' "title": "The Story of Tomorrow" '
-        + ' "content ":'
-        + '"When I think back to my love of storytelling and why I pursued a degree in journalism, '
-        + "it comes back to these tall tales. The Story of Tomorrow is only"
-        + "one of the countless real-life stories that I heard growing up. My family immigrated to"
-        + "the United States from Iran sporadically beginning in 1977 following the revolution,"
-        + "and there was no shortage of memories to share."
-        + '"'
-        + "}"
-        + "Aditionally escape all espcial characters by adding backlash in order to be valid"
-        + " python string format"
+        f"Act as an exceptional fiction writer. Write an original {size} story in {language} of"
+        + f"approximately 500 words that creatively incorporates the words '{words}' at"
+        + "least once. Give the story an engaging title."
+        + "Return the story as a valid JSON object with two attributes:"
+        + "'title': a string containing the title of the story"
+        + "'content': a string containing the full story"
+        + "The final output should be:"
+        + "Wrapped in double quotes so it can be used as a JSON string"
+        + "Escaped properly using json.dumps() in Python, so all keys and string values"
+        + " use double quotes Safe to deserialize using json.loads()"
+        + "If using special characters like curly quotes (’), either escape them using"
+        + "Unicode (e.g., \u2019) or ensure the string is UTF-8 encoded"
     )
     return prompt
