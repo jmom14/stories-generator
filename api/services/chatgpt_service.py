@@ -1,4 +1,5 @@
 from api.services.base_service import BaseService
+from api.errors import ServiceError
 from openai import OpenAI, OpenAIError
 from api.config import settings
 
@@ -25,4 +26,4 @@ class ChatGPTService(BaseService):
             raise OpenAIError(f"Error with OpenAI API: {error_message}") from e
         except Exception as e:
             error_message = str(e)
-            raise Exception(f"Unexpected error: {error_message}") from e
+            raise ServiceError(f"Unexpected error: {error_message}") from e

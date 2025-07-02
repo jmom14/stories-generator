@@ -1,4 +1,5 @@
 from api.services.base_service import BaseService
+from api.errors import ServiceError
 from api.config import settings
 import anthropic
 
@@ -22,4 +23,4 @@ class ClaudeService(BaseService):
 
         except Exception as e:
             error_message = str(e)
-            raise Exception(f"Unexpected error: {error_message}") from e
+            raise ServiceError(f"Unexpected error: {error_message}") from e
