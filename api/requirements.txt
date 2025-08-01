@@ -7,3 +7,5 @@ openai==1.72.0
 pydantic-settings==2.8.1
 ebooklib==0.18
 fpdf2==2.8.2
+google-genai==1.21.1
+anthropic==0.56.0

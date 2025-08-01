@@ -1,12 +1,13 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from api.services import stories
-import logging
-from api.models import request
+from api.models.request import StoryRequest
 from fastapi.middleware.cors import CORSMiddleware
-from api.writers.writerfactory import Format, get_media_type
+from api.writers.writer_factory import Format, get_media_type
 from api.helper.async_tasks import remove_file_async
 from api.celery_worker.tasks import sum_async, app as celery_app
+import logging
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -51,7 +52,7 @@ def get_sum_async_result(task_id: str):
 
 
 @app.post("/stories/")
-async def create_story(story: request.StoryRequest, background_tasks: BackgroundTasks):
+async def create_story(story: StoryRequest, background_tasks: BackgroundTasks):
     format_file = story.format
 
     try:

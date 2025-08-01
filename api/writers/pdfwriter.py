@@ -2,6 +2,7 @@ from api.writers import writer
 from io import BytesIO
 from fpdf import FPDF
 import logging
+from api.helper.utils import sanitize_filename
 
 
 class PDFWriter(writer.Writer):
@@ -13,7 +14,7 @@ class PDFWriter(writer.Writer):
 
     def write(self):
         try:
-            filename = "_".join(self.title.split(" ")) + ".pdf"
+            filename = f"{sanitize_filename(self.title)}.pdf"
             pdf = FPDF()
             pdf.add_page()
             pdf.set_font("Arial", size=18)
@@ -29,4 +30,4 @@ class PDFWriter(writer.Writer):
 
         except Exception as e:
             logging.error(str(e))
-            return ""
+            return None, None
