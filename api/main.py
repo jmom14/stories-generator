@@ -86,6 +86,5 @@ async def create_story(story: StoryRequest, background_tasks: BackgroundTasks):
             )
     except Exception as e:
         logging.error(str(e))
-        raise HTTPException(
-            status_code=500, detail="Something went wrong. Try again later"
-        ) from e
+        error_message = "Something went wrong. Try again later"
+        raise HTTPException(status_code=500, detail=error_message) from e

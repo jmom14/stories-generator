@@ -12,7 +12,7 @@ class ClaudeService(BaseService):
         self.model = settings.cloude_model
         self.client = anthropic.Anthropic(api_key=settings.cloude_key)
 
-    def submit_prompt(self, prompt) -> str:
+    def submit_prompt(self, prompt: str) -> str:
         try:
             response = self.client.messages.create(
                 model=self.model,
