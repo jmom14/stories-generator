@@ -23,7 +23,7 @@ def get_media_type(file_format: str) -> str:
 class WriterFactory:
 
     @staticmethod
-    def get_writer(file_format, title, author, content):
+    def get_writer(file_format: str, title: str, author: str, content: str):
         if file_format == Format.EPUB.value:
             return EPUBWriter(title, author, content)
         elif file_format == Format.PDF.value:

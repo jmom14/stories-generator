@@ -10,7 +10,7 @@ class GeminiService(BaseService):
         self.model = settings.gemini_model
         self.client = genai.Client(api_key=settings.gemini_key)
 
-    def submit_prompt(self, prompt) -> str:
+    def submit_prompt(self, prompt: str) -> str:
         try:
             response = self.client.models.generate_content(
                 model=self.model,

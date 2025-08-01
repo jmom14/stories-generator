@@ -37,8 +37,4 @@ def create_story(story):
         error_message = str(e)
         logging.error("Error with OpenAI API: %s", error_message)
 
-    except Exception as e:
-        error_message = str(e)
-        logging.error("Unexpected error: %s", error_message)
-
     return None
